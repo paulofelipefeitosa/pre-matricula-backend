@@ -26,5 +26,5 @@ public class Student extends User {
     public String getAdmissionPeriod() {
         return admissionPeriod;
     }
-    
+
 }
