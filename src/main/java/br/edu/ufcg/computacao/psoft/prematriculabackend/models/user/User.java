@@ -1,14 +1,14 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 public abstract class User {
+    private String email;
     private String name;
-    private String password;
     private String enrollmentNumber;
     private Role role;
     
-    public User(String name, String password, String enrollmentNumber, Role role) {
+    public User(String name, String email, String enrollmentNumber, Role role) {
+        this.email = email;
         this.name = name;
-        this.password = password;
         this.enrollmentNumber = enrollmentNumber;
         this.role = role;
     }
@@ -17,16 +17,16 @@ public abstract class User {
         return name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getEnrollmentNumber() {
         return enrollmentNumber;
     }
 
     public Role getRole() {
         return role;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
 }

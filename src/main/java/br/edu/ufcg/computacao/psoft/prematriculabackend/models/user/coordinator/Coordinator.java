@@ -5,8 +5,8 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 
 public class Coordinator extends User {
 
-    public Coordinator(String name, String password, String enrollmentNumber) {
-        super(name, password, enrollmentNumber, Role.COORDINATOR);
+    public Coordinator(String email, String name, String enrollmentNumber) {
+        super(email, name, enrollmentNumber, Role.COORDINATOR);
     }
 
 }

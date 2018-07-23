@@ -12,9 +12,9 @@ public class Student extends User {
     private String admissionPeriod;
     private Set<PreEnrollment> preEnrollments;
 
-    public Student(String name, String password, String enrollmentNumber, String cpf,
+    public Student(String email, String name, String enrollmentNumber, String cpf,
             Date birthdate, String admissionPeriod) {
-        super(name, password, enrollmentNumber, Role.STUDENT);
+        super(email, name, enrollmentNumber, Role.STUDENT);
         this.cpf = cpf;
         this.birthdate = birthdate;
         this.admissionPeriod = admissionPeriod;
