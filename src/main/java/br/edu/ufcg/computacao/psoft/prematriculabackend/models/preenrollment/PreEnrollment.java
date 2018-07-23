@@ -1,17 +1,23 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.student;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.course.Course;
 
 public class PreEnrollment {
     private String studentEnrollment;
     private String semester;
     private List<Course> courses;
+    private Status status;
+    
+    @Autowired
+    private PreEnrollmentValidator validator;
 
     public PreEnrollment(String studentEnrollment, String semester, List<Course> courses) {
         this.studentEnrollment = studentEnrollment;
         this.semester = semester;
         this.courses = courses;
+        this.status = this.validator.getPreEnrollmentStatus(this);
     }
 
     public String getSemester() {
@@ -24,6 +30,10 @@ public class PreEnrollment {
 
     public String getStudentEnrollment() {
         return studentEnrollment;
+    }
+    
+    public Status getStatus() {
+        return status;
     }
 
     @Override
