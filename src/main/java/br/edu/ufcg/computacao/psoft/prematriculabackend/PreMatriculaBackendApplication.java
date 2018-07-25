@@ -24,6 +24,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableOAuth2Client
 public class PreMatriculaBackendApplication extends WebSecurityConfigurerAdapter {
 
+    public static final String LOGIN_ENDPOINT = "/login";
+    
     @Autowired
     OAuth2ClientContext oauth2ClientContext;
 
@@ -34,7 +36,7 @@ public class PreMatriculaBackendApplication extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**").authorizeRequests()
-                .antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll().anyRequest()
+                .antMatchers("/", LOGIN_ENDPOINT + "**", "/webjars/**", "/error**").permitAll().anyRequest()
                 .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
@@ -42,7 +44,7 @@ public class PreMatriculaBackendApplication extends WebSecurityConfigurerAdapter
 
     private Filter ssoFilter() {
         OAuth2ClientAuthenticationProcessingFilter gmailFilter =
-                new OAuth2ClientAuthenticationProcessingFilter("/login");
+                new OAuth2ClientAuthenticationProcessingFilter(LOGIN_ENDPOINT);
 
         OAuth2RestTemplate facebookTemplate =
                 new OAuth2RestTemplate(gmail(), this.oauth2ClientContext);
