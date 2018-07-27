@@ -44,7 +44,7 @@ public class PreMatriculaBackendApplication extends WebSecurityConfigurerAdapter
             if (email.contains("@ccc.ufcg.edu.br")) {
                 return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
             } else {
-                throw new BadCredentialsException("Not in Spring Team");
+                throw new BadCredentialsException("User does not belong to CCC organization.");
             }
         };
     }
