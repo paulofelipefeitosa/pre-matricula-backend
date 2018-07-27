@@ -1,16 +1,17 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.controllers;
 
 import java.security.Principal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
-@RequestMapping("/users")
+@Controller
 public class UserController {
-    
-    @GetMapping
+
+    @RequestMapping("/users")
+    @ResponseBody
     public Principal user(Principal principal) {
         return principal;
     }
+    
 }
