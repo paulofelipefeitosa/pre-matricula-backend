@@ -1,101 +1,78 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend;
 
-import javax.servlet.Filter;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
+import org.springframework.boot.web.server.ConfigurableWebServerFactory;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.stereotype.Controller;
 
 @SpringBootApplication
-@EnableOAuth2Client
+@EnableOAuth2Sso
+@Controller
 public class PreMatriculaBackendApplication extends WebSecurityConfigurerAdapter {
 
-    public static final String LOGIN_ENDPOINT = "/login";
-    
-    @Autowired
-    OAuth2ClientContext oauth2ClientContext;
+    @Bean
+    public OAuth2RestTemplate oauth2RestTemplate(OAuth2ProtectedResourceDetails resource,
+            OAuth2ClientContext context) {
+        return new OAuth2RestTemplate(resource, context);
+    }
 
-    public static void main(String[] args) {
-        SpringApplication.run(PreMatriculaBackendApplication.class, args);
+    @Bean
+    public AuthoritiesExtractor authoritiesExtractor(OAuth2RestOperations template) {
+        return map -> {
+            ArrayList<HashMap<String, String>> emailProperty =
+                    (ArrayList<HashMap<String, String>>) map.get("emails");
+            HashMap<String, String> emailValue = emailProperty.get(0);
+            String email = emailValue.get("value");
+            if (email.contains("@ccc.ufcg.edu.br")) {
+                return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+            } else {
+                throw new BadCredentialsException("Not in Spring Team");
+            }
+        };
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
         http.antMatcher("/**").authorizeRequests()
-                .antMatchers("/", LOGIN_ENDPOINT + "**", "/webjars/**", "/error**").permitAll().anyRequest()
-                .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                .antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/").failureUrl("/unauthenticated").permitAll()
+                .and().logout().logoutSuccessUrl("/").permitAll()
+                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        // @formatter:on
     }
 
-    private Filter ssoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter gmailFilter =
-                new OAuth2ClientAuthenticationProcessingFilter(LOGIN_ENDPOINT);
-
-        OAuth2RestTemplate facebookTemplate =
-                new OAuth2RestTemplate(gmail(), this.oauth2ClientContext);
-
-        gmailFilter.setRestTemplate(facebookTemplate);
-
-        UserInfoTokenServices tokenServices =
-                new UserInfoTokenServices(gmailResource().getUserInfoUri(), gmail().getClientId());
-
-        tokenServices.setRestTemplate(facebookTemplate);
-
-        gmailFilter.setTokenServices(tokenServices);
-
-        return gmailFilter;
+    @Configuration
+    protected static class ServletCustomizer {
+        @Bean
+        public WebServerFactoryCustomizer<ConfigurableWebServerFactory> customizer() {
+            return container -> {
+                container.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/unauthenticated"));
+            };
+        }
     }
 
-    /**
-     * Support redirects from app to OAuth2 server. 
-     * 
-     * @param filter
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean<OAuth2ClientContextFilter> oauth2ClientFilterRegistration(
-            OAuth2ClientContextFilter filter) {
-        FilterRegistrationBean<OAuth2ClientContextFilter> registration =
-                new FilterRegistrationBean<OAuth2ClientContextFilter>();
-        registration.setFilter(filter);
-        registration.setOrder(-100);
-        return registration;
-    }
-
-    /**
-     * Get gmail resource properties from application.yaml file.
-     * 
-     * @return
-     */
-    @Bean
-    @ConfigurationProperties("gmail.resource")
-    public ResourceServerProperties gmailResource() {
-        return new ResourceServerProperties();
-    }
-
-    /**
-     * Get gmail client properties from application.yaml file.
-     * 
-     * @return
-     */
-    @Bean
-    @ConfigurationProperties("gmail.client")
-    public AuthorizationCodeResourceDetails gmail() {
-        return new AuthorizationCodeResourceDetails();
+    public static void main(String[] args) {
+        SpringApplication.run(PreMatriculaBackendApplication.class, args);
     }
 }
