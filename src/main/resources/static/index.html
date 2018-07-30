@@ -50,7 +50,7 @@
 			url : "/users",
 			success : function(data) {
 				$(".unauthenticated").hide();
-				$("#user").html(data.userAuthentication.details.displayName);
+				$("#user").html(data.username);
 				$(".authenticated").show();
 			},
 			error : function(data) {
