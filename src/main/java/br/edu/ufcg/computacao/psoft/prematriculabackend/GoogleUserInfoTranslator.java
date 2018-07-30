@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GoogleProviderTranslator implements ProviderTranslator {
+public class GoogleUserInfoTranslator implements UserInfoTranslator {
 
     @Override
     public String getEmail(Map<String, Object> map) {

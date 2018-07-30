@@ -16,14 +16,14 @@ public class GooglePrincipalExtractor implements PrincipalExtractor {
     private UserService userService;
     
     @Autowired
-    private ProviderTranslator googleTranslator;
+    private UserInfoTranslator googleUserInfo;
 
     @Override
     public Object extractPrincipal(Map<String, Object> map) {
-        String email = this.googleTranslator.getEmail(map);
+        String email = this.googleUserInfo.getEmail(map);
         User user = this.userService.getUserByEmail(email);
         if (user == null) {
-            String userName = this.googleTranslator.getName(map);
+            String userName = this.googleUserInfo.getName(map);
             if (email.contains(Student.DOMAIN)) {
                 user = new Student(email, userName, null, null, null, null);
             } else {

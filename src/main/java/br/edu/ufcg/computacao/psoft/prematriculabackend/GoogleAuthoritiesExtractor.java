@@ -18,7 +18,7 @@ public class GoogleAuthoritiesExtractor implements AuthoritiesExtractor {
     private UserService userService;
 
     @Autowired
-    private ProviderTranslator googleTranslator;
+    private UserInfoTranslator googleTranslator;
 
     @Override
     public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {

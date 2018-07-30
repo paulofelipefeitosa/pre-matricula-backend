@@ -2,7 +2,7 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend;
 
 import java.util.Map;
 
-public interface ProviderTranslator {
+public interface UserInfoTranslator {
     
     public String getEmail(Map<String, Object> map);
     
