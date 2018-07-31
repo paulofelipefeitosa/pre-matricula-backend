@@ -1,26 +1,30 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.services;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.repositories.UserRepository;
 
 @Service
 public class UserService {
-    private List<User> userList = new ArrayList<User>();
+	
+	@Autowired
+	UserRepository userRepository;
 
-    public User create(User user) {
-        this.userList.add(user);
-        return this.userList.get(this.userList.size() - 1);
-    }
+	public List<User> getUsers() {
+		return this.userRepository.findAll();
+	}
 
-    public User getUserByEmail(String email) {
-        for (User user : this.userList) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
-    }
+	public User save(User user) {
+		this.userRepository.save(user);
+		return user;
+	}
+
+	public User getUserByEmail(String email) {
+		return this.userRepository.findUserFromEmail(email);
+	}
 
 }

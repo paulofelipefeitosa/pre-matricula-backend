@@ -36,7 +36,7 @@ public class GooglePrincipalExtractor implements PrincipalExtractor {
             } else {
                 user = new Anonymous(userName, email, null, null);
             }
-            this.userService.create(user);
+            this.userService.save(user);
         }
         return user;
     }
