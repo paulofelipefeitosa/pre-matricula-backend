@@ -1,7 +1,7 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
-import javax.activity.InvalidActivityException;
 import org.springframework.security.core.userdetails.UserDetails;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 
 public abstract class User implements UserDetails {
 
@@ -26,11 +26,11 @@ public abstract class User implements UserDetails {
         return enrollmentNumber;
     }
 
-    public void setEnrollmentNumber(String enrollmentNumber) throws InvalidActivityException {
+    public void setEnrollmentNumber(String enrollmentNumber) {
         if (this.enrollmentNumber == null || this.enrollmentNumber.trim().isEmpty()) {
             this.enrollmentNumber = enrollmentNumber;
         } else {
-            throw new InvalidActivityException("Enrollment number is already set");
+            throw new InvalidUpdateException("Enrollment number is already set");
         }
     }
 
