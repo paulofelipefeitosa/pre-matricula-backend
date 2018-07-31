@@ -6,20 +6,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
 @Entity
-@Table(name = "student")
-@PrimaryKeyJoinColumn(name = "student_id", referencedColumnName="enrollmentNumber")
+@DiscriminatorValue(value = "student")
 public class Student extends User {
     /**
      * 
@@ -43,7 +44,8 @@ public class Student extends User {
 	@NotEmpty(message = "User admissionPeriod can not be empty")
     private String admissionPeriod;
 	
-	@Column(name = "cpf")
+	@ManyToMany
+	@JoinColumn(name = "preEnrollments")
     @NotNull(message = "User preEnrollments can not be null")
 	@NotEmpty(message = "User preEnrollments can not be empty")
     private Map<String, PreEnrollment> preEnrollments;
