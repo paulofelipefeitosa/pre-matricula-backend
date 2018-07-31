@@ -1,20 +1,24 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
-public abstract class User {
+import org.springframework.security.core.userdetails.UserDetails;
+
+public abstract class User implements UserDetails {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private String email;
-    private String name;
+    private String username;
     private String enrollmentNumber;
     private Role role;
     
     public User(String name, String email, String enrollmentNumber, Role role) {
         this.email = email;
-        this.name = name;
+        this.username = name;
         this.enrollmentNumber = enrollmentNumber;
         this.role = role;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getEnrollmentNumber() {
@@ -27,6 +31,42 @@ public abstract class User {
 
     public String getEmail() {
         return email;
+    }
+    
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", userName=" + username + ", enrollmentNumber="
+                + enrollmentNumber + ", role=" + role + "]";
+    }
+    
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }

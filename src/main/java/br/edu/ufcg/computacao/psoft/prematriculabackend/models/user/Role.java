@@ -3,7 +3,7 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Role {
-    STUDENT("Student"), COORDINATOR("Coordinator");
+    STUDENT("STUDENT"), COORDINATOR("COORDINATOR");
 
     private String value;
 
