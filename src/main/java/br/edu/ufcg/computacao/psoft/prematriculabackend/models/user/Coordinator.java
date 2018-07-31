@@ -1,6 +1,9 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -9,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Coordinator extends User {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
     /**
      * 
      */
@@ -17,6 +22,7 @@ public class Coordinator extends User {
     @Autowired
     public Coordinator(CoordinatorProperties coordinatorProperties) {
         super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
+        log.info(coordinatorProperties.getCoordinatorEmail());
     }
     
     @Override
