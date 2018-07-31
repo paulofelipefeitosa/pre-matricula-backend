@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.activity.InvalidActivityException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
@@ -36,11 +36,11 @@ public class Student extends User {
         return cpf;
     }
 
-    public void setCpf(String cpf) throws InvalidActivityException {
+    public void setCpf(String cpf) {
         if (this.cpf == null || this.cpf.trim().isEmpty()) {
             this.cpf = cpf;
         } else {
-            throw new InvalidActivityException("Cpf is already set");
+            throw new InvalidUpdateException("Cpf is already set");
         }
     }
 
@@ -52,11 +52,11 @@ public class Student extends User {
         return admissionPeriod;
     }
     
-    public void setAdmissionPeriod(String admissionPeriod) throws InvalidActivityException {
+    public void setAdmissionPeriod(String admissionPeriod) {
         if (this.admissionPeriod == null || this.admissionPeriod.trim().isEmpty()) {
             this.admissionPeriod = admissionPeriod;
         } else {
-            throw new InvalidActivityException("Admission period is already set");
+            throw new InvalidUpdateException("Admission period is already set");
         }
     }
 
