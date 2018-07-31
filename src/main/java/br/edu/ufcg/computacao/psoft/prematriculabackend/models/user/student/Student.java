@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.activity.InvalidActivityException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
@@ -15,7 +16,7 @@ public class Student extends User {
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     public static final String DOMAIN = "ccc.ufcg.edu.br";
     private String cpf;
     private Date birthdate;
@@ -35,12 +36,28 @@ public class Student extends User {
         return cpf;
     }
 
+    public void setCpf(String cpf) throws InvalidActivityException {
+        if (this.cpf == null || this.cpf.trim().isEmpty()) {
+            this.cpf = cpf;
+        } else {
+            throw new InvalidActivityException("Cpf is already set");
+        }
+    }
+
     public Date getBirthdate() {
         return birthdate;
     }
 
     public String getAdmissionPeriod() {
         return admissionPeriod;
+    }
+    
+    public void setAdmissionPeriod(String admissionPeriod) throws InvalidActivityException {
+        if (this.admissionPeriod == null || this.admissionPeriod.trim().isEmpty()) {
+            this.admissionPeriod = admissionPeriod;
+        } else {
+            throw new InvalidActivityException("Admission period is already set");
+        }
     }
 
     public void addPreEnrollment(String semester, PreEnrollment preEnrollment) {
@@ -61,7 +78,7 @@ public class Student extends User {
                 + admissionPeriod + ", preEnrollments=" + preEnrollments + ", toString()="
                 + super.toString() + "]";
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());

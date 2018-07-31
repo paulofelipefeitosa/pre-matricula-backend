@@ -1,5 +1,6 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
+import javax.activity.InvalidActivityException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public abstract class User implements UserDetails {
@@ -8,12 +9,12 @@ public abstract class User implements UserDetails {
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     private String email;
     private String username;
     private String enrollmentNumber;
     private Role role;
-    
+
     public User(String name, String email, String enrollmentNumber, Role role) {
         this.email = email;
         this.username = name;
@@ -25,17 +26,12 @@ public abstract class User implements UserDetails {
         return enrollmentNumber;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    
-    @Override
-    public String getPassword() {
-        return null;
+    public void setEnrollmentNumber(String enrollmentNumber) throws InvalidActivityException {
+        if (this.enrollmentNumber == null || this.enrollmentNumber.trim().isEmpty()) {
+            this.enrollmentNumber = enrollmentNumber;
+        } else {
+            throw new InvalidActivityException("Enrollment number is already set");
+        }
     }
 
     @Override
@@ -43,12 +39,29 @@ public abstract class User implements UserDetails {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
     @Override
     public String toString() {
         return "User [email=" + email + ", userName=" + username + ", enrollmentNumber="
                 + enrollmentNumber + ", role=" + role + "]";
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
