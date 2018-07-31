@@ -32,20 +32,20 @@ public class CourseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("#oauth2.hasScope('COORDINATOR')")
     public @ResponseBody Course createCourse(@RequestBody Course course) {
         this.courseService.create(course);
         return course;
     }
 
     @RequestMapping(value = "/{code}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("#oauth2.hasScope('COORDINATOR')")
     public @ResponseBody void deleteCourse(@PathVariable String code) {
         this.courseService.delete(code);
     }
     
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("#oauth2.hasScope('COORDINATOR')")
     public @ResponseBody void deleteAllCourses() {
         this.courseService.deleteAll();
     }
