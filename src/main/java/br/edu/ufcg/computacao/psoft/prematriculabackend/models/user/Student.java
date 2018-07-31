@@ -4,11 +4,22 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
+@Entity
+@Table(name = "student")
+@PrimaryKeyJoinColumn(name = "student_id", referencedColumnName="enrollmentNumber")
 public class Student extends User {
     /**
      * 
@@ -16,9 +27,25 @@ public class Student extends User {
     private static final long serialVersionUID = 1L;
 
     public static final String DOMAIN = "ccc.ufcg.edu.br";
+	
+	@Column(name = "cpf")
+    @NotNull(message = "User cpf can not be null")
+	@NotEmpty(message = "User cpf can not be empty")
     private String cpf;
+
+	@Column(name = "birthdate")
+    @NotNull(message = "User birthdate can not be null")
+	@NotEmpty(message = "User birthdate can not be empty")
     private Date birthdate;
+	
+	@Column(name = "admissionPeriod")
+    @NotNull(message = "User admissionPeriod can not be null")
+	@NotEmpty(message = "User admissionPeriod can not be empty")
     private String admissionPeriod;
+	
+	@Column(name = "cpf")
+    @NotNull(message = "User preEnrollments can not be null")
+	@NotEmpty(message = "User preEnrollments can not be empty")
     private Map<String, PreEnrollment> preEnrollments;
 
     public Student(String email, String name, String enrollmentNumber, String cpf, Date birthdate,

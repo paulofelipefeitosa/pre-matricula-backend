@@ -1,20 +1,50 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 
+@Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User implements UserDetails {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-
-    private String email;
-    private String username;
+    
+    @Id
+	@Column(name = "enrollmentNumber")
+    @NotNull(message = "User enrollmentNumber can not be null")
+	@NotEmpty(message = "User enrollmentNumber can not be empty")
     private String enrollmentNumber;
-    private Role role;
+    
+	@Column(name = "email")  
+	@NotNull(message = "User email can not be null")
+	@NotEmpty(message = "User email can not be empty")
+    private String email;
+	
+	@Column(name = "username")
+	@NotNull(message = "User username can not be null")
+	@NotEmpty(message = "User username can not be empty")
+    private String username;
+	
+	@Column(name = "role")
+	private Role role;
 
+	public User() {
+		
+	}
+	
     public User(String name, String email, String enrollmentNumber, Role role) {
         this.email = email;
         this.username = name;
