@@ -26,6 +26,7 @@ public class GoogleAuthoritiesExtractor implements AuthoritiesExtractor {
         User user = this.userService.getUserByEmail(email);
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         if (authorities.isEmpty()) {
+            this.userService.delete(user);
             throw new BadCredentialsException("User does not belong to CCC organization.");
         }
         return (List<GrantedAuthority>) authorities;
