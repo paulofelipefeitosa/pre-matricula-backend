@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.stereotype.Component;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Anonymous;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Coordinator;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.coordinator.Coordinator;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.student.Student;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 
 @Component

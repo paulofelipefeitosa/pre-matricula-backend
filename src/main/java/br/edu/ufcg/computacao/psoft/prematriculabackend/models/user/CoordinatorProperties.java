@@ -1,4 +1,4 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.coordinator;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;

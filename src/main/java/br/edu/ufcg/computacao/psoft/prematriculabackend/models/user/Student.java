@@ -1,4 +1,4 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.student;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import java.util.Collection;
 import java.util.Date;
@@ -8,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 
 public class Student extends User {
     /**

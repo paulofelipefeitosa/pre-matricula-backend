@@ -1,8 +1,8 @@
 security:
    oauth2:
        client:
-           clientId: ----
-           clientSecret: ----
+           clientId: ${CLIENT_ID}
+           clientSecret: ${CLIENT_SECRET}
            accessTokenUri: https://www.googleapis.com/oauth2/v3/token
            userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
            tokenName: oauth_token
