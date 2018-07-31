@@ -23,4 +23,10 @@ public class UserService {
         return null;
     }
 
+    public void delete(User user) {
+        if (this.userList.contains(user)) {
+            this.userList.remove(user);
+        }
+    }
+
 }
