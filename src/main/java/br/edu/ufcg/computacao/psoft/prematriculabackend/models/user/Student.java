@@ -3,11 +3,13 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -34,7 +36,8 @@ public class Student extends User {
 	@Column(name = "admissionPeriod")
     private String admissionPeriod;
 	
-	@Column(name = "preEnrollments")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "pre_enrollment_id")
     private PreEnrollment preEnrollments;
 
 	public Student() {}
