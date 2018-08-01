@@ -1,4 +1,4 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.googleauth;
 
 import java.util.Map;
 

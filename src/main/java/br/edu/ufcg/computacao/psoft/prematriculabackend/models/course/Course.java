@@ -1,13 +1,43 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.course;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "tb_course")
 public class Course {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, unique = true)
+	private Long id;
+	
+	@Column(name = "name")
     private String name;
+	
+	@Column(name = "code")
     private String code;
+	
+	@Column(name = "credits")
     private Integer credits;
+	
+	@Column(name = "classLoad")
     private Integer classLoad;
+	
+	@Column(name = "type")
     private Type type;
+	
+	@Column(name = "ppc")
     private PPC ppc;
 
+	public Course() {}
+	
     public Course(String name, String code, Integer credits, Integer classLoad, Type type,
             PPC ppc) {
         this.name = name;

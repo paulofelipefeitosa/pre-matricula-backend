@@ -1,20 +1,59 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 
+@Entity
+@Table(name = "tb_user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonSubTypes({ @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
+		@JsonSubTypes.Type(value = Coordinator.class, name = "COORDINATOR"),
+		@JsonSubTypes.Type(value = Anonymous.class, name = "ANONYMOUS") })
 public abstract class User implements UserDetails {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-
-    private String email;
-    private String username;
+    
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, unique = true)
+	private Long id;
+    
+	@Column(name = "enrollmentNumber")
     private String enrollmentNumber;
-    private Role role;
+    
+	@Column(name = "email")  
+	@NotNull(message = "User email can not be null")
+	@NotEmpty(message = "User email can not be empty")
+    private String email;
+	
+	@Column(name = "username")
+	@NotNull(message = "User username can not be null")
+	@NotEmpty(message = "User username can not be empty")
+    private String username;
+	
+	@Column(name = "role")
+	private Role role;
 
+	public User() {}
+	
     public User(String name, String email, String enrollmentNumber, Role role) {
         this.email = email;
         this.username = name;
