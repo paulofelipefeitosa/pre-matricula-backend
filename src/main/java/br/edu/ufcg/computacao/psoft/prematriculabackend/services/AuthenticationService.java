@@ -28,13 +28,13 @@ public class AuthenticationService {
 			if (persistedUser != null) {
 				user = persistedUser;
 			}
-			this.tokenMapper.put(token, user);
 		} else if(isCoordinator(user)) {
+			this.coordinator.setUsername(user.getUsername());
 			user = this.coordinator;
-			this.tokenMapper.put(token, user);
 		} else {
 			throw new UnauthorizedException("User does not belong to CCC organization");
 		}
+		this.tokenMapper.put(token, user);
 	}
 
 	public User getUser(String token) {

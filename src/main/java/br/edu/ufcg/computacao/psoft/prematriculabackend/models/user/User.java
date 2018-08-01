@@ -18,7 +18,7 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.Invali
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonSubTypes({ @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
 		@JsonSubTypes.Type(value = Coordinator.class, name = "COORDINATOR") })
-public abstract class User {
+public class User {
 
 	@Column(name = "enrollmentNumber")
 	private String enrollmentNumber;
