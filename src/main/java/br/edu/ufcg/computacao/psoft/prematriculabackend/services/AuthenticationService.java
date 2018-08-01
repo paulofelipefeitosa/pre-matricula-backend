@@ -27,8 +27,10 @@ public class AuthenticationService {
 			User persistedUser = this.userService.getUserByEmail(user.getEmail());
 			if (persistedUser != null) {
 				user = persistedUser;
+			} else {
+				this.userService.save(user);
 			}
-		} else if(isCoordinator(user)) {
+		} else if (isCoordinator(user)) {
 			this.coordinator.setUsername(user.getUsername());
 			user = this.coordinator;
 		} else {
@@ -45,14 +47,13 @@ public class AuthenticationService {
 	}
 
 	private boolean isStudent(User user) {
-		
 		boolean result = false;
 		if (user.getEmail().contains("@" + Student.DOMAIN)) {
 			result = true;
 		}
 		return result;
 	}
-	
+
 	private boolean isCoordinator(User user) {
 		boolean result = false;
 		if (user.getEmail().equals(this.coordinator.getEmail())) {

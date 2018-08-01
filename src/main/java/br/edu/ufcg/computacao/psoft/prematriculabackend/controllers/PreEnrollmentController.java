@@ -44,7 +44,7 @@ public class PreEnrollmentController {
 		throw new UnauthorizedException("Unauthorized operation");
 	}
 
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public @ResponseBody PreEnrollment getUserPreEnrollment(
 			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
 		User user = this.authService.getUser(tokenValue);
@@ -54,7 +54,7 @@ public class PreEnrollmentController {
 		throw new UnauthorizedException("Unauthorized operation");
 	}
 
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	@RequestMapping(value = "/student", method = RequestMethod.POST)
 	public @ResponseBody PreEnrollment createUserPreEnrollment(@RequestBody PreEnrollment preEnrollment,
 			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
 		User user = this.authService.getUser(tokenValue);
