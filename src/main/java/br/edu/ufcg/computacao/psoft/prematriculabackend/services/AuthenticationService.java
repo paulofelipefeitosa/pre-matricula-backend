@@ -22,12 +22,13 @@ public class AuthenticationService {
 
 	private Map<String, User> tokenMapper = new HashMap<String, User>();
 
-	public void createToken(String token, User user) {
+	public User createToken(String token, User user) {
 		if (isStudent(user)) {
 			User persistedUser = this.userService.getUserByEmail(user.getEmail());
 			if (persistedUser != null) {
 				user = persistedUser;
 			} else {
+				user = new Student(user.getUsername(), user.getEmail(), null, null, null, null);
 				this.userService.save(user);
 			}
 		} else if (isCoordinator(user)) {
@@ -37,6 +38,7 @@ public class AuthenticationService {
 			throw new UnauthorizedException("User does not belong to CCC organization");
 		}
 		this.tokenMapper.put(token, user);
+		return user;
 	}
 
 	public User getUser(String token) {

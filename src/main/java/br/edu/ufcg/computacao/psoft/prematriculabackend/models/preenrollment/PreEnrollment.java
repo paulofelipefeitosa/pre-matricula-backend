@@ -38,7 +38,6 @@ public class PreEnrollment {
         this.studentEnrollment = studentEnrollment;
         this.semester = semester;
         this.courses = courses;
-        this.status = PreEnrollmentValidator.getPreEnrollmentStatus(this);
     }
 
     public String getSemester() {
@@ -57,10 +56,10 @@ public class PreEnrollment {
         return status;
     }
     
-    public void updateStatus() {
-    	this.status = PreEnrollmentValidator.getPreEnrollmentStatus(this);
+    public void setStatus(Status status) {
+    	this.status = status;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;

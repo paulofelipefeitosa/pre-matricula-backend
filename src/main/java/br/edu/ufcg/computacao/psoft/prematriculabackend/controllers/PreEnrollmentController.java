@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.UnauthorizedException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.PreEnrollmentService;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -30,9 +28,6 @@ public class PreEnrollmentController {
 
 	@Autowired
 	private AuthenticationService authService;
-
-	@Autowired
-	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody List<PreEnrollment> getAllPreEnrollments(
@@ -59,12 +54,7 @@ public class PreEnrollmentController {
 			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
 		User user = this.authService.getUser(tokenValue);
 		if (user.getRole().equals(Role.STUDENT)) {
-			preEnrollment.updateStatus();
-			this.preEnrollmentService.save(preEnrollment);
-			Student studentUser = (Student) user;
-			studentUser.setPreEnrollment(preEnrollment);
-			this.userService.save(studentUser);
-			return preEnrollment;
+			return this.preEnrollmentService.save(user, preEnrollment);
 		}
 		throw new UnauthorizedException("Unauthorized operation");
 	}
