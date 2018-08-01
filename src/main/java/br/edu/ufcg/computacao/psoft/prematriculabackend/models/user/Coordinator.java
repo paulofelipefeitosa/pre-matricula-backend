@@ -28,6 +28,7 @@ public class Coordinator extends User {
     	
     }
     
+    @Autowired
     public Coordinator(CoordinatorProperties coordinatorProperties) {
         super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
         log.info(coordinatorProperties.getCoordinatorEmail());
