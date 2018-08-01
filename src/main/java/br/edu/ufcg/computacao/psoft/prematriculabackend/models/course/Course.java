@@ -64,7 +64,7 @@ public class Course {
         return type;
     }
 
-    public PPC getPcc() {
+    public PPC getPpc() {
         return ppc;
     }
 
