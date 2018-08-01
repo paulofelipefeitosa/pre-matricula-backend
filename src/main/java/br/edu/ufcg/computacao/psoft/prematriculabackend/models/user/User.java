@@ -21,9 +21,8 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.Invali
 @Entity
 @Table(name = "tb_user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
-		@JsonSubTypes.Type(value = Coordinator.class, name = "COODINATOR"),
+		@JsonSubTypes.Type(value = Coordinator.class, name = "COORDINATOR"),
 		@JsonSubTypes.Type(value = Anonymous.class, name = "ANONYMOUS") })
 public abstract class User implements UserDetails {
 

@@ -5,9 +5,9 @@ import java.util.Collection;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
-
 
 @Entity
 @DiscriminatorValue(value = "tb_anonymous")
