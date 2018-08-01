@@ -10,6 +10,7 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.repositories.CourseRepos
 
 @Service
 public class CourseService {
+	
 	@Autowired
 	private CourseRepository courseRepository;
 
