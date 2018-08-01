@@ -1,23 +1,47 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.course.Course;
 
+@Entity
+@Table(name = "tb_preenrollment")
 public class PreEnrollment {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, unique = true)
+	private Long id;
+	
+	@Column(name = "studentEnrollment")
     private String studentEnrollment;
+	
+	@Column(name = "semester")
     private String semester;
+	
+    @ManyToMany
+    @JoinColumn(name = "courses")
     private List<Course> courses;
+	
+	@Column(name = "status")
     private Status status;
     
-    @Autowired
-    private PreEnrollmentValidator validator;
-
+    public PreEnrollment() {}
+    
     public PreEnrollment(String studentEnrollment, String semester, List<Course> courses) {
         this.studentEnrollment = studentEnrollment;
         this.semester = semester;
         this.courses = courses;
-        this.status = this.validator.getPreEnrollmentStatus(this);
+        this.status = PreEnrollmentValidator.getPreEnrollmentStatus(this);
     }
 
     public String getSemester() {

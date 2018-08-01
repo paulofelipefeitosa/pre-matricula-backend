@@ -1,4 +1,4 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.googleauth;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.Authoriti
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 

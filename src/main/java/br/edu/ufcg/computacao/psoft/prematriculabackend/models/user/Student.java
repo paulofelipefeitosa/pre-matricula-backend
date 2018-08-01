@@ -2,21 +2,21 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
+@Entity
+@DiscriminatorValue(value = "tb_student")
 public class Student extends User {
     /**
      * 
@@ -25,20 +25,26 @@ public class Student extends User {
 
     public static final String DOMAIN = "ccc.ufcg.edu.br";
 	
+	@Column(name = "cpf")
     private String cpf;
 
+	@Column(name = "birthdate")
     private Date birthdate;
 	
+	@Column(name = "admissionPeriod")
     private String admissionPeriod;
-    private Map<String, PreEnrollment> preEnrollments;
+	
+	@Column(name = "preEnrollments")
+    private PreEnrollment preEnrollments;
 
-    public Student(String email, String name, String enrollmentNumber, String cpf, Date birthdate,
+	public Student() {}
+	
+    public Student(String name, String email, String enrollmentNumber, String cpf, Date birthdate,
             String admissionPeriod) {
         super(name, email, enrollmentNumber, Role.STUDENT);
         this.cpf = cpf;
         this.birthdate = birthdate;
         this.admissionPeriod = admissionPeriod;
-        this.preEnrollments = new HashMap<String, PreEnrollment>();
     }
 
     public String getCpf() {
@@ -69,16 +75,8 @@ public class Student extends User {
         }
     }
 
-    public void addPreEnrollment(String semester, PreEnrollment preEnrollment) {
-        this.preEnrollments.put(semester, preEnrollment);
-    }
-
-    public PreEnrollment getPreEnrollmentBySemester(String semester) {
-        return this.preEnrollments.get(semester);
-    }
-
-    public Collection<PreEnrollment> getAllPreEnrollments() {
-        return this.preEnrollments.values();
+    public void updatePreEnrollment(PreEnrollment preEnrollment) {
+        this.preEnrollments = preEnrollment;
     }
 
     @Override

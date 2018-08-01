@@ -1,4 +1,4 @@
-package br.edu.ufcg.computacao.psoft.prematriculabackend;
+package br.edu.ufcg.computacao.psoft.prematriculabackend.googleauth;
 
 import java.util.Map;
 
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.stereotype.Component;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Anonymous;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Coordinator;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
@@ -39,7 +40,7 @@ public class GooglePrincipalExtractor implements PrincipalExtractor {
                 user.setUsername(userName);
             } else if (email.contains(Student.DOMAIN)) {
             	log.info("student");
-                user = new Student(email, userName, null, null, null, null);
+                user = new Student(userName, email, null, null, null, null);
             } else {
             	log.info("anonimo");
                 user = new Anonymous(userName, email, null, null);

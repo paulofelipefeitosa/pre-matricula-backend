@@ -2,6 +2,8 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -10,11 +12,19 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 
 @Entity
-@Table(name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "tb_user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
+		@JsonSubTypes.Type(value = Coordinator.class, name = "COODINATOR"),
+		@JsonSubTypes.Type(value = Anonymous.class, name = "ANONYMOUS") })
 public abstract class User implements UserDetails {
 
     /**
@@ -22,10 +32,12 @@ public abstract class User implements UserDetails {
      */
     private static final long serialVersionUID = 1L;
     
-    @Id
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, unique = true)
+	private Long id;
+    
 	@Column(name = "enrollmentNumber")
-    @NotNull(message = "User enrollmentNumber can not be null")
-	@NotEmpty(message = "User enrollmentNumber can not be empty")
     private String enrollmentNumber;
     
 	@Column(name = "email")  
@@ -41,9 +53,7 @@ public abstract class User implements UserDetails {
 	@Column(name = "role")
 	private Role role;
 
-	public User() {
-		
-	}
+	public User() {}
 	
     public User(String name, String email, String enrollmentNumber, Role role) {
         this.email = email;
