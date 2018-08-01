@@ -7,6 +7,11 @@ public class Course {
     private Integer classLoad;
     private Type type;
     private PPC ppc;
+    
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
     public Course(String name, String code, Integer credits, Integer classLoad, Type type,
             PPC ppc) {
