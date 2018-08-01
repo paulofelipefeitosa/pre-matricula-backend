@@ -20,15 +20,12 @@ public class Coordinator extends User {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// private final Logger log = LoggerFactory.getLogger(this.getClass());
-
 	public Coordinator() {
 	}
 
 	@Autowired
 	public Coordinator(CoordinatorProperties coordinatorProperties) {
 		super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
-		// log.info(coordinatorProperties.getCoordinatorEmail());
 	}
 
 	@Override
