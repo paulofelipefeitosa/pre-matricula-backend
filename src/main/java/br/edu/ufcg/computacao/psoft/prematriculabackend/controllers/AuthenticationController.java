@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
 
 @RestController
@@ -26,9 +26,10 @@ public class AuthenticationController {
 	private AuthenticationService authService;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody String user(@RequestBody User user,
+	public @ResponseBody String createToken(@RequestBody Student user,
 			@RequestHeader(required = true, value = TOKEN_VALUE_HEADER_KEY) String tokenValue) {
 	    logger.info(tokenValue);
+	    logger.info(user.toString());
 		this.authService.createToken(tokenValue, user);
 		return tokenValue;
 	}

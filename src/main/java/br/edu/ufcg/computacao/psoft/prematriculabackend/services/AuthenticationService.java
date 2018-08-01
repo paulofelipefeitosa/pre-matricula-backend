@@ -23,14 +23,18 @@ public class AuthenticationService {
 	private Map<String, User> tokenMapper = new HashMap<String, User>();
 
 	public void createToken(String token, User user) {
-		if (isAuthorized(user)) {
+		if (isStudent(user)) {
 			User persistedUser = this.userService.getUserByEmail(user.getEmail());
 			if (persistedUser != null) {
 				user = persistedUser;
 			}
 			this.tokenMapper.put(token, user);
+		} else if(isCoordinator(user)) {
+			user = this.coordinator;
+			this.tokenMapper.put(token, user);
+		} else {
+			throw new UnauthorizedException("User does not belong to CCC organization");
 		}
-		throw new UnauthorizedException("User does not belong to CCC organization");
 	}
 
 	public User getUser(String token) {
@@ -40,9 +44,18 @@ public class AuthenticationService {
 		throw new UnauthorizedException("User not authenticated");
 	}
 
-	private boolean isAuthorized(User user) {
+	private boolean isStudent(User user) {
+		
 		boolean result = false;
-		if (user.getEmail().contains("@" + Student.DOMAIN) || user.getEmail().equals(this.coordinator.getEmail())) {
+		if (user.getEmail().contains("@" + Student.DOMAIN)) {
+			result = true;
+		}
+		return result;
+	}
+	
+	private boolean isCoordinator(User user) {
+		boolean result = false;
+		if (user.getEmail().equals(this.coordinator.getEmail())) {
 			result = true;
 		}
 		return result;
