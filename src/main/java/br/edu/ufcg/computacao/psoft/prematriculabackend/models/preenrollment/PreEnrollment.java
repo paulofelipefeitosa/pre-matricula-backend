@@ -10,11 +10,6 @@ public class PreEnrollment {
     private List<Course> courses;
     private Status status;
     
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-    
     @Autowired
     private PreEnrollmentValidator validator;
 

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -15,13 +14,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
-@Entity
-@Table(name = "student")
-@PrimaryKeyJoinColumn(name = "student_id", referencedColumnName="id")
 public class Student extends User {
     /**
      * 
@@ -30,31 +25,13 @@ public class Student extends User {
 
     public static final String DOMAIN = "ccc.ufcg.edu.br";
 	
-	@Column(name = "cpf")
-    @NotNull(message = "User cpf can not be null")
-	@NotEmpty(message = "User cpf can not be empty")
     private String cpf;
 
-	@Column(name = "birthdate")
-    @NotNull(message = "User birthdate can not be null")
-	@NotEmpty(message = "User birthdate can not be empty")
     private Date birthdate;
 	
-	@Column(name = "admissionPeriod")
-    @NotNull(message = "User admissionPeriod can not be null")
-	@NotEmpty(message = "User admissionPeriod can not be empty")
     private String admissionPeriod;
-	
-	@OneToMany
-	@Column(name = "preEnrollments")
-    @NotNull(message = "User preEnrollments can not be null")
-	@NotEmpty(message = "User preEnrollments can not be empty")
     private Map<String, PreEnrollment> preEnrollments;
 
-	public Student() {
-        this.preEnrollments = new HashMap<String, PreEnrollment>();
-	}
-	
     public Student(String email, String name, String enrollmentNumber, String cpf, Date birthdate,
             String admissionPeriod) {
         super(name, email, enrollmentNumber, Role.STUDENT);
@@ -115,27 +92,5 @@ public class Student extends User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
     }
-
-	public Map<String, PreEnrollment> getPreEnrollments() {
-		return preEnrollments;
-	}
-
-	public void setPreEnrollments(Map<String, PreEnrollment> preEnrollments) {
-		this.preEnrollments = preEnrollments;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static String getDomain() {
-		return DOMAIN;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
-	}
-    
-    
 
 }

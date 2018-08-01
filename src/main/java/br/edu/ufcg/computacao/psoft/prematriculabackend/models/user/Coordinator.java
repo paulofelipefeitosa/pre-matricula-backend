@@ -14,20 +14,15 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-@Entity
-@Table(name = "coordinator")
-@PrimaryKeyJoinColumn(name = "coordinator_id", referencedColumnName="id")
 public class Coordinator extends User {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-    
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public Coordinator() {}
-    
     @Autowired
     public Coordinator(CoordinatorProperties coordinatorProperties) {
         super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
@@ -39,15 +34,4 @@ public class Coordinator extends User {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
     }
 
-	public Logger getLog() {
-		return log;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-    
-    
-    
 }

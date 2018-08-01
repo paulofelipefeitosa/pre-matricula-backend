@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 	
 	@Query("select u from User u where u.email = ?1")
 	public User findUserFromEmail(String email);

@@ -21,10 +21,10 @@ public class UserService {
 	public List<User> getUsers() {
 		return this.userRepository.findAll();
 	}
-	
+
 	public User save(User user) {
 		log.info("Antes de salvar!!");
-		this.userRepository.save(user); 
+		this.userRepository.save(user);
 		log.info("salvo!!");
 		return user;
 	}
@@ -32,5 +32,5 @@ public class UserService {
 	public User getUserByEmail(String email) {
 		return this.userRepository.findUserFromEmail(email);
 	}
-	
+
 }
