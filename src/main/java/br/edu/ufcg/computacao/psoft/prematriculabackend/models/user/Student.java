@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +20,8 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.Invali
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
 @Entity
-@DiscriminatorValue(value = "student")
+@Table(name = "student")
+@PrimaryKeyJoinColumn(name = "student_id", referencedColumnName="id")
 public class Student extends User {
     /**
      * 
@@ -44,8 +45,8 @@ public class Student extends User {
 	@NotEmpty(message = "User admissionPeriod can not be empty")
     private String admissionPeriod;
 	
-	@ManyToMany
-	@JoinColumn(name = "preEnrollments")
+	@OneToMany
+	@Column(name = "preEnrollments")
     @NotNull(message = "User preEnrollments can not be null")
 	@NotEmpty(message = "User preEnrollments can not be empty")
     private Map<String, PreEnrollment> preEnrollments;
