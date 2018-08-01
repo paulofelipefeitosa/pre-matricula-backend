@@ -1,6 +1,5 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -11,19 +10,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.preenrollment.PreEnrollment;
 
 @Entity
 @DiscriminatorValue(value = "tb_student")
 public class Student extends User {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
 
     public static final String DOMAIN = "ccc.ufcg.edu.br";
 	
@@ -87,11 +79,6 @@ public class Student extends User {
         return "Student [cpf=" + cpf + ", birthdate=" + birthdate + ", admissionPeriod="
                 + admissionPeriod + ", preEnrollments=" + preEnrollments + ", toString()="
                 + super.toString() + "]";
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
     }
 
 }

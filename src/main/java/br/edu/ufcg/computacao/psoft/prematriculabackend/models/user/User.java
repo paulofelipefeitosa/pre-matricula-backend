@@ -9,8 +9,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.InvalidUpdateException;
@@ -20,12 +18,7 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.Invali
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonSubTypes({ @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
 		@JsonSubTypes.Type(value = Coordinator.class, name = "COORDINATOR") })
-public abstract class User implements UserDetails {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public abstract class User {
 
 	@Column(name = "enrollmentNumber")
 	private String enrollmentNumber;
@@ -66,7 +59,6 @@ public abstract class User implements UserDetails {
 		}
 	}
 
-	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -84,34 +76,9 @@ public abstract class User implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		return "User [email=" + email + ", userName=" + username + ", enrollmentNumber=" + enrollmentNumber + ", role="
 				+ role + "]";
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
 	}
 
 }
