@@ -4,10 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,24 +15,25 @@ import org.springframework.stereotype.Component;
 @DiscriminatorValue(value = "tb_coordinator")
 public class Coordinator extends User {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-//	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    public Coordinator() {}
-    
-    @Autowired
-    public Coordinator(CoordinatorProperties coordinatorProperties) {
-        super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
-//        log.info(coordinatorProperties.getCoordinatorEmail());
-    }
-    
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
-    }
+	// private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+	public Coordinator() {
+	}
+
+	@Autowired
+	public Coordinator(CoordinatorProperties coordinatorProperties) {
+		super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
+		// log.info(coordinatorProperties.getCoordinatorEmail());
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
+	}
 
 }
