@@ -50,6 +50,10 @@ public class Student extends User {
 	@NotEmpty(message = "User preEnrollments can not be empty")
     private Map<String, PreEnrollment> preEnrollments;
 
+	public Student() {
+        this.preEnrollments = new HashMap<String, PreEnrollment>();
+	}
+	
     public Student(String email, String name, String enrollmentNumber, String cpf, Date birthdate,
             String admissionPeriod) {
         super(name, email, enrollmentNumber, Role.STUDENT);
@@ -110,5 +114,27 @@ public class Student extends User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
     }
+
+	public Map<String, PreEnrollment> getPreEnrollments() {
+		return preEnrollments;
+	}
+
+	public void setPreEnrollments(Map<String, PreEnrollment> preEnrollments) {
+		this.preEnrollments = preEnrollments;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public static String getDomain() {
+		return DOMAIN;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+    
+    
 
 }

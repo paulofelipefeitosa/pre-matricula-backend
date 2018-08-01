@@ -24,7 +24,10 @@ public class Coordinator extends User {
      */
     private static final long serialVersionUID = 1L;
 
-    @Autowired
+    public Coordinator() {
+    	
+    }
+    
     public Coordinator(CoordinatorProperties coordinatorProperties) {
         super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
         log.info(coordinatorProperties.getCoordinatorEmail());
@@ -35,4 +38,15 @@ public class Coordinator extends User {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getRole().toString());
     }
 
+	public Logger getLog() {
+		return log;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+    
+    
+    
 }

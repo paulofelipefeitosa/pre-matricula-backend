@@ -127,4 +127,28 @@ public abstract class User implements UserDetails {
 		return true;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	
+	
+	
+	
 }

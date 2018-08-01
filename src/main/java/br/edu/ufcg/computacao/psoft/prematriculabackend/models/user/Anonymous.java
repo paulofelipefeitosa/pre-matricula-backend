@@ -12,6 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 @DiscriminatorValue(value = "anonymous")
 public class Anonymous extends User {
 
+	public Anonymous() {
+	}
+	
     public Anonymous(String name, String email, String enrollmentNumber, Role role) {
         super(name, email, enrollmentNumber, role);
     }
