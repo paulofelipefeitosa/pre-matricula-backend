@@ -14,11 +14,22 @@ public class PreEnrollmentService {
 	PreEnrollmentRepository preEnrollmentRepository;
 
 	public List<PreEnrollment> getPreEnrollments() {
-		return this.preEnrollmentRepository.findAll();
+		List<PreEnrollment> preEnrollmentList = this.preEnrollmentRepository.findAll();
+		for (PreEnrollment preEnrollment : preEnrollmentList) {
+			preEnrollment.updateStatus();
+			this.save(preEnrollment);
+		}
+		return preEnrollmentList;
 	}
 
 	public PreEnrollment getPreEnrollmentByStudentEnrollment(String studentEnrollment) {
-		return this.preEnrollmentRepository.findPreEnrollmentByStudentEnrollmentNumber(studentEnrollment);
+		PreEnrollment preEnrollment = this.preEnrollmentRepository
+				.findPreEnrollmentByStudentEnrollmentNumber(studentEnrollment);
+		if (preEnrollment != null) {
+			preEnrollment.updateStatus();
+			this.save(preEnrollment);
+		}
+		return preEnrollment;
 	}
 
 	public PreEnrollment save(PreEnrollment preEnrollment) {

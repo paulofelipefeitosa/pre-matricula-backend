@@ -56,6 +56,10 @@ public class PreEnrollment {
     public Status getStatus() {
         return status;
     }
+    
+    public void updateStatus() {
+    	this.status = PreEnrollmentValidator.getPreEnrollmentStatus(this);
+    }
 
     @Override
     public int hashCode() {

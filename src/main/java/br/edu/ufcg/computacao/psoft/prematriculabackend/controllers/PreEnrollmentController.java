@@ -59,6 +59,7 @@ public class PreEnrollmentController {
 			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
 		User user = this.authService.getUser(tokenValue);
 		if (user.getRole().equals(Role.STUDENT)) {
+			preEnrollment.updateStatus();
 			this.preEnrollmentService.save(preEnrollment);
 			Student studentUser = (Student) user;
 			studentUser.setPreEnrollment(preEnrollment);
