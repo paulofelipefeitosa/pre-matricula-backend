@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -18,10 +18,6 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.models.course.Course;
 public class PreEnrollment {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false, unique = true)
-	private Long id;
-	
 	@Column(name = "studentEnrollment")
     private String studentEnrollment;
 	
@@ -32,6 +28,7 @@ public class PreEnrollment {
     @JoinColumn(name = "courses")
     private List<Course> courses;
 	
+    @Enumerated(EnumType.STRING)
 	@Column(name = "status")
     private Status status;
     

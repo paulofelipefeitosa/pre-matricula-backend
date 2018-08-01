@@ -12,7 +12,7 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.repositories.UserReposit
 public class UserService {
 	
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	public List<User> getUsers() {
 		return this.userRepository.findAll();

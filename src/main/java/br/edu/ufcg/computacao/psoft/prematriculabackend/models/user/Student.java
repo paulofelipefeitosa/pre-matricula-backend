@@ -70,7 +70,7 @@ public class Student extends User {
         }
     }
 
-    public void updatePreEnrollment(PreEnrollment preEnrollment) {
+    public void setPreEnrollment(PreEnrollment preEnrollment) {
         this.preEnrollments = preEnrollment;
     }
 

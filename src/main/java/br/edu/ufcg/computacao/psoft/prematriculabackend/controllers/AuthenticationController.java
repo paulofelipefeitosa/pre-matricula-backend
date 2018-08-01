@@ -1,5 +1,7 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,31 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/auth")
+public class AuthenticationController {
+	public static final String TOKEN_VALUE_HEADER_KEY = "X-Auth-Token";
+
+	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
 	@Autowired
 	private AuthenticationService authService;
-
-	@Autowired
-	private UserService userService;
-
-	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody User getUser(
-			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
-		return this.authService.getUser(tokenValue);
-	}
-
+	
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody User createUser(@RequestBody User user,
-			@RequestHeader(required = true, value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
+	public @ResponseBody String user(@RequestBody User user,
+			@RequestHeader(required = true, value = TOKEN_VALUE_HEADER_KEY) String tokenValue) {
+	    logger.info(tokenValue);
 		this.authService.createToken(tokenValue, user);
-		this.userService.save(user);
-		return user;
+		return tokenValue;
 	}
-
 }

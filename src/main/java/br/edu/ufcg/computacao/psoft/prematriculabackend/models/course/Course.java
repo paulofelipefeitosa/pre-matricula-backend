@@ -2,6 +2,8 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.course;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -22,9 +24,11 @@ public class Course {
 	@Column(name = "classLoad")
     private Integer classLoad;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "type")
     private Type type;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "ppc")
     private PPC ppc;
 
