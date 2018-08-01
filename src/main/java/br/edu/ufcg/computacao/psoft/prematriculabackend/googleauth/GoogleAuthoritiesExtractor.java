@@ -1,11 +1,8 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.googleauth;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,25 +15,20 @@ import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 @Component
 public class GoogleAuthoritiesExtractor implements AuthoritiesExtractor {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private UserInfoTranslator googleTranslator;
+	@Autowired
+	private UserInfoTranslator googleTranslator;
 
-    @Override
-    public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
-    	log.info(map.toString());
-        String email = this.googleTranslator.getEmail(map);
-        User user = this.userService.getUserByEmail(email);
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-        if (authorities.isEmpty()) {
-        	log.info("BAD");
-            throw new BadCredentialsException("User does not belong to CCC organization.");
-        }
-        return (List<GrantedAuthority>) authorities;
-    }
+	@Override
+	public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
+		String email = this.googleTranslator.getEmail(map);
+		User user = this.userService.getUserByEmail(email);
+		if (user == null) {
+			throw new BadCredentialsException("User does not belong to CCC organization.");
+		}
+		return (List<GrantedAuthority>) user.getAuthorities();
+	}
 
 }
