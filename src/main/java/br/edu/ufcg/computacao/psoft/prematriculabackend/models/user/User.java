@@ -2,6 +2,8 @@ package br.edu.ufcg.computacao.psoft.prematriculabackend.models.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -30,6 +32,7 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
 

@@ -26,7 +26,7 @@ public class AuthenticationService {
     }
 
     private boolean isAuthorizedEmail(String email) {
-        return this.studentService.isStudentEmail(email) || this.coordService.isCoordinator(email);
+        return this.coordService.isCoordinator(email) || this.studentService.isStudentEmail(email);
     }
 
     public String getEmail(String token) {

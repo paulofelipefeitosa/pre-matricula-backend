@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.UnauthorizedException;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.StudentService;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -24,6 +27,9 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private UserService userService;
+    
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody Student getStudent(@RequestHeader(required = true,
             value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
@@ -40,8 +46,11 @@ public class StudentController {
             @RequestHeader(required = true,
                     value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
         String email = this.authService.getEmail(tokenValue);
-        if (email.equals(student.getEmail())) {
-            return this.studentService.save(student);
+        User user = this.userService.getUserByEmail(email);
+        if (user == null || user.getRole().equals(Role.STUDENT)) {
+            if (email.equals(student.getEmail())) {
+                return this.studentService.save(student);
+            }
         }
         throw new UnauthorizedException("Unauthorized operation");
     }

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.UnauthorizedException;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Coordinator;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.CoordinatorService;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -23,6 +26,9 @@ public class CoordinatorController {
 
     @Autowired
     private CoordinatorService coordService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody Coordinator getStudent(@RequestHeader(required = true,
@@ -40,8 +46,11 @@ public class CoordinatorController {
             @RequestHeader(required = true,
                     value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
         String email = this.authService.getEmail(tokenValue);
-        if (email.equals(coordinator.getEmail())) {
-            return this.coordService.save(coordinator);
+        User user = this.userService.getUserByEmail(email);
+        if (user == null || user.getRole().equals(Role.COORDINATOR)) {
+            if (email.equals(coordinator.getEmail())) {
+                return this.coordService.save(coordinator);
+            }
         }
         throw new UnauthorizedException("Unauthorized operation");
     }
