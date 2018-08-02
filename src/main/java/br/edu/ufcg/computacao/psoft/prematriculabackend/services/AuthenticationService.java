@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.UnauthorizedException;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Role;
 
 @Service
 public class AuthenticationService {
@@ -17,16 +18,15 @@ public class AuthenticationService {
 
     private Map<String, String> tokenMapper = new HashMap<String, String>();
 
-    public String createToken(String token, String email) {
-        if (isAuthorizedEmail(email)) {
+    public Role createToken(String token, String email) {
+        if (this.coordService.isCoordinator(email)) {
             this.tokenMapper.put(token, email);
-            return token;
+            return Role.COORDINATOR;
+        } else if(this.studentService.isStudentEmail(email)) {
+            this.tokenMapper.put(token, email);
+            return Role.STUDENT;
         }
         throw new UnauthorizedException("User does not belong to CCC organization");
-    }
-
-    private boolean isAuthorizedEmail(String email) {
-        return this.coordService.isCoordinator(email) || this.studentService.isStudentEmail(email);
     }
 
     public String getEmail(String token) {
