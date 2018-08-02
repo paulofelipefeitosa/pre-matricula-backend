@@ -1,6 +1,5 @@
 package br.edu.ufcg.computacao.psoft.prematriculabackend.controllers;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,51 +8,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.course.Course;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.models.exceptions.UnauthorizedException;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Coordinator;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.User;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.models.user.Student;
 import br.edu.ufcg.computacao.psoft.prematriculabackend.services.AuthenticationService;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.services.CoordinatorService;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.services.CourseService;
-import br.edu.ufcg.computacao.psoft.prematriculabackend.services.UserService;
+import br.edu.ufcg.computacao.psoft.prematriculabackend.services.StudentService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/courses")
-public class CourseController {
+@RequestMapping("/students")
+public class StudentController {
 
     @Autowired
     private AuthenticationService authService;
 
     @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private CoordinatorService coordService;
-
-    @Autowired
-    private UserService userService;
+    private StudentService studentService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<Course> getAllCourses(@RequestHeader(required = true,
+    public @ResponseBody Student getStudent(@RequestHeader(required = true,
             value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
         String email = this.authService.getEmail(tokenValue);
-        User user = this.userService.getUserByEmail(email);
-        if (user != null) {
-            return this.courseService.getCourses();
+        Student student = this.studentService.getStudentByEmail(email);
+        if (student != null) {
+            return student;
         }
         throw new UnauthorizedException("Unauthorized operation");
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody Course createCourse(@RequestBody Course course,
+    public @ResponseBody Student createStudent(@RequestBody Student student,
             @RequestHeader(required = true,
                     value = AuthenticationController.TOKEN_VALUE_HEADER_KEY) String tokenValue) {
         String email = this.authService.getEmail(tokenValue);
-        Coordinator coord = this.coordService.getCoordinatorByEmail(email);
-        if (coord != null) {
-            return this.courseService.save(course);
+        if (email.equals(student.getEmail())) {
+            return this.studentService.save(student);
         }
         throw new UnauthorizedException("Unauthorized operation");
     }
