@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface PreEnrollmentValidator {
 
-	public void checkPreEnrollmentStatus(PreEnrollment preEnrollment);
+	public Status getPreEnrollmentStatus(PreEnrollment preEnrollment);
 }

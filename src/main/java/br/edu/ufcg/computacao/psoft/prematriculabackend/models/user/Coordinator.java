@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.ufcg.computacao.psoft.prematriculabackend.controllers.AuthenticationController;
@@ -20,10 +19,9 @@ public class Coordinator extends User {
 	public Coordinator() {
 	}
 
-	@Autowired
-	public Coordinator(CoordinatorProperties coordinatorProperties) {
-		super(null, coordinatorProperties.getCoordinatorEmail(), null, Role.COORDINATOR);
-		logger.info(coordinatorProperties.getCoordinatorEmail());
+	public Coordinator(String email) {
+		super(null, email, null, Role.COORDINATOR);
+		logger.info(email);
 	}
 
 }
